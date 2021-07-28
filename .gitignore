@@ -1,3 +1,5 @@
 # Project exclude paths
 /leetcode/target/
 /normal-sort/target/
+/.idea/*
+
