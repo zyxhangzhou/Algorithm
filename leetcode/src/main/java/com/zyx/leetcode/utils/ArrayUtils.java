@@ -1,5 +1,6 @@
 package com.zyx.leetcode.utils;
 
+import com.google.common.base.Strings;
 import org.apache.commons.beanutils.ConvertUtils;
 
 import java.util.Arrays;
@@ -20,7 +21,7 @@ public class ArrayUtils {
     }
 
     public static void main(String[] args) {
-        Integer[] x = buildArray("[2,3,4,5,6,7,7]");
-        System.out.println(Arrays.toString(x));
+
+
     }
 }
