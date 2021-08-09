@@ -3,7 +3,6 @@ package com.zyx.leetcode.utils;
 import org.apache.commons.beanutils.ConvertUtils;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +42,6 @@ public class ParamsUtils {
 //
 //    }
     public static void main(String[] args) {
-        System.out.println(basicConvert("[[\".Q..\",\"...Q\",\"Q...\",\"..Q.\"],[\"..Q.\",\"Q...\",\"...Q\",\".Q..\"]]"));
+        System.out.println(basicConvert("[[],[0,2,3,4],[3],[4],[]]"));
     }
 }

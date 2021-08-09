@@ -30,11 +30,14 @@
             <artifactId>hutool-all</artifactId>
             <version>5.7.5</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
-            <groupId>de.plushnikov.lombok-intellij-plugin</groupId>
-            <artifactId>lombok-plugin</artifactId>
-            <version>0.5</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+            <scope>provided</scope>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
         <dependency>
             <groupId>commons-beanutils</groupId>

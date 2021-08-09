@@ -6,11 +6,20 @@ package com.zyx.leetcode.utils;
  * @description
  */
 public class ListNode {
-    int val;
-    ListNode next;
+    public int val;
+    public ListNode next;
 
-    ListNode(int x) {
-        val = x;
+
+    public ListNode() {
+    }
+
+    public ListNode(int val) {
+        this.val = val;
+    }
+
+    public ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
     }
 
     public static ListNode buildList(Integer[] arr) {
@@ -23,5 +32,16 @@ public class ListNode {
         root.next = build(arr, index + 1);
         return root;
     }
+
+    @Override
+    public String toString() {
+        return val + " " + (next == null ? "" : next.toString());
+    }
+
+//    public static void main(String[] args) {
+//        Integer[] arr = new Integer[]{1, 2, 3, 4};
+//        ListNode listNode = buildList(arr);
+//        System.out.println(listNode);
+//    }
 }
 
