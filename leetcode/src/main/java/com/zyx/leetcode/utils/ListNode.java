@@ -33,6 +33,10 @@ public class ListNode {
         return root;
     }
 
+    public static ListNode stringArray2ListNode(String s) {
+        return buildList(ParamsUtils.array2Integers(s));
+    }
+
     @Override
     public String toString() {
         return val + " " + (next == null ? "" : next.toString());

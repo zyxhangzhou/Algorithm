@@ -2,12 +2,8 @@ package com.zyx.leetcode.utils;
 
 import org.apache.commons.beanutils.ConvertUtils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author zhangyuxiao
@@ -17,18 +13,23 @@ import java.util.Objects;
 public class ParamsUtils {
     public static List<String> params = new ArrayList<>();
 
-    static {
-        try {
-            final String path = Objects.requireNonNull(ParamsUtils.class.getClassLoader().getResource("params.txt")).getPath();
-            final BufferedReader in = new BufferedReader(new FileReader(path));
-            String str;
-            while ((str = in.readLine()) != null) {
-                params.add(str);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    static {
+//        try {
+//            final String path = Objects.requireNonNull(ParamsUtils.class.getClassLoader().getResource("params.txt")).getPath();
+//            final BufferedReader in = new BufferedReader(new FileReader(path));
+//            String str;
+//            while ((str = in.readLine()) != null) {
+//                params.add(str);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+
+//    public static ListNode stringArray2ListNode(int index) {
+//        return ListNode.buildList(ParamsUtils.array2Integers(params.get(index)));
+//    }
 
     public static String basicConvert(String param) {
         return param.replaceAll("([\\[])", "{").replaceAll("(])", "}");
