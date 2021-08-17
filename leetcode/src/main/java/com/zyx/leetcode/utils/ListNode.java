@@ -1,25 +1,25 @@
 package com.zyx.leetcode.utils;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Objects;
+
 /**
  * @author zhangyuxiao
  * @date 2021-07-27 19:02
  * @description
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ListNode {
     public int val;
     public ListNode next;
 
-
-    public ListNode() {
-    }
-
     public ListNode(int val) {
         this.val = val;
-    }
-
-    public ListNode(int val, ListNode next) {
-        this.val = val;
-        this.next = next;
     }
 
     public static ListNode buildList(Integer[] arr) {
@@ -42,10 +42,13 @@ public class ListNode {
         return val + " " + (next == null ? "" : next.toString());
     }
 
-//    public static void main(String[] args) {
-//        Integer[] arr = new Integer[]{1, 2, 3, 4};
-//        ListNode listNode = buildList(arr);
-//        System.out.println(listNode);
-//    }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ListNode) {
+            final ListNode node = (ListNode) obj;
+            return this.val == node.val && Objects.equals(this.next, node.next);
+        }
+        return false;
+    }
 }
 
