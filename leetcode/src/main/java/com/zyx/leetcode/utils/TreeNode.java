@@ -168,7 +168,7 @@ public class TreeNode {
     }
 
     public static void main(String[] args) {
-        Integer[] arr = new Integer[]{1, 2, 3, 4};
+        Integer[] arr = new Integer[]{1, 2, 3, 4, 5};
         final TreeNode root = buildTree(arr);
         Integer[] front = new Integer[]{1, 2, 4, 5, 3};
         Integer[] middle = new Integer[]{4, 2, 5, 1, 3};
@@ -180,8 +180,7 @@ public class TreeNode {
     public boolean equals(Object obj) {
         if (obj instanceof TreeNode) {
             final TreeNode root = (TreeNode) obj;
-            final boolean equal = this.val == root.val;
-            return equal && Objects.equals(this.left, root.left) && Objects.equals(this.right, root.right);
+            return this.val == root.val && Objects.equals(this.left, root.left) && Objects.equals(this.right, root.right);
         }
         return false;
     }
