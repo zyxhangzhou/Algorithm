@@ -123,6 +123,11 @@ public class TreeNode {
         System.out.print(root.val + " ");
     }
 
+    /**
+     * leetCode风格的层序遍历
+     *
+     * @param root 根
+     */
     public static void levelTraversal(TreeNode root) {
         if (root == null) return;
         final Queue<Pair<TreeNode, Integer>> queue = new LinkedList<>();
@@ -142,6 +147,11 @@ public class TreeNode {
         levelTraversalPrinter(index);
     }
 
+    /**
+     * 根据数组打印层序数组
+     *
+     * @param index 最大且有意义的下标
+     */
     public static void levelTraversalPrinter(int index) {
         System.out.print('[');
         for (int i = 0; i < MAX_SIZE && i <= index; i++) {
@@ -211,6 +221,12 @@ public class TreeNode {
         levelTraversal(root);
     }
 
+    /**
+     * 重写判断两🌲是否相等
+     *
+     * @param obj Object
+     * @return 布尔值
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof TreeNode) {
