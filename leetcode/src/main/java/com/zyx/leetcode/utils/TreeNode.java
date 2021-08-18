@@ -3,9 +3,12 @@ package com.zyx.leetcode.utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Queue;
 
 /**
  * @author zhangyuxiao
@@ -19,6 +22,9 @@ public class TreeNode {
     public int val;
     public TreeNode left;
     public TreeNode right;
+    private static final int MAX_SIZE = 1024;
+    private static int nowSize = 0;
+    private static final Integer[] level = new Integer[MAX_SIZE];
 
     TreeNode(int val) {
         this.val = val;
@@ -117,6 +123,34 @@ public class TreeNode {
         System.out.print(root.val + " ");
     }
 
+    public static void levelTraversal(TreeNode root) {
+        if (root == null) return;
+        final Queue<Pair<TreeNode, Integer>> queue = new LinkedList<>();
+        queue.offer(Pair.of(root, 0));
+        int index = 0;
+        while (!queue.isEmpty()) {
+            final Pair<TreeNode, Integer> poll = queue.poll();
+            final TreeNode node = poll.getLeft();
+            final Integer nowIdx = poll.getRight();
+            if (node != null) {
+                index = nowIdx;
+                level[nowIdx] = node.val;
+                queue.offer(Pair.of(node.left, nowIdx * 2 + 1));
+                queue.offer(Pair.of(node.right, nowIdx * 2 + 2));
+            }
+        }
+        levelTraversalPrinter(index);
+    }
+
+    public static void levelTraversalPrinter(int index) {
+        System.out.print('[');
+        for (int i = 0; i < MAX_SIZE && i <= index; i++) {
+            if (i > 0) System.out.print(", ");
+            System.out.print(level[i]);
+        }
+        System.out.println(']');
+    }
+
     /**
      * 非递归后序
      *
@@ -168,12 +202,13 @@ public class TreeNode {
     }
 
     public static void main(String[] args) {
-        Integer[] arr = new Integer[]{1, 2, 3, 4, 5};
+        Integer[] arr = new Integer[]{1, 2, 3, null, null, 4, 5};
         final TreeNode root = buildTree(arr);
         Integer[] front = new Integer[]{1, 2, 4, 5, 3};
         Integer[] middle = new Integer[]{4, 2, 5, 1, 3};
         final TreeNode root2 = frontMid2Tree(front, middle);
         System.out.println(Objects.equals(root, root2));
+        levelTraversal(root);
     }
 
     @Override
