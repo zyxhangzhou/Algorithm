@@ -149,21 +149,21 @@ public class TreeNode {
      * @param middle 中序数组
      * @return treeNode
      */
-    public static TreeNode frontMid2back(Integer[] front, Integer[] middle) {
+    public static TreeNode frontMid2Tree(Integer[] front, Integer[] middle) {
         if (front.length != middle.length) {
             System.out.println("illegal input!");
             return null;
         }
-        return frontMid2backHelper(0, 0, front.length - 1, front, middle);
+        return frontMid2TreeHelper(0, 0, front.length - 1, front, middle);
     }
 
-    public static TreeNode frontMid2backHelper(int rootIndex, int start, int end, Integer[] front, Integer[] middle) {
+    public static TreeNode frontMid2TreeHelper(int rootIndex, int start, int end, Integer[] front, Integer[] middle) {
         if (start > end) return null;
         int rootValue = front[rootIndex], midIndex = start;
         while (middle[midIndex] != rootValue) midIndex++;
         final TreeNode root = new TreeNode(rootValue);
-        root.left = frontMid2backHelper(rootIndex + 1, start, midIndex - 1, front, middle);
-        root.right = frontMid2backHelper(rootIndex + midIndex - start + 1, midIndex + 1, end, front, middle);
+        root.left = frontMid2TreeHelper(rootIndex + 1, start, midIndex - 1, front, middle);
+        root.right = frontMid2TreeHelper(rootIndex + midIndex - start + 1, midIndex + 1, end, front, middle);
         return root;
     }
 
@@ -172,7 +172,7 @@ public class TreeNode {
         final TreeNode root = buildTree(arr);
         Integer[] front = new Integer[]{1, 2, 4, 5, 3};
         Integer[] middle = new Integer[]{4, 2, 5, 1, 3};
-        final TreeNode root2 = frontMid2back(front, middle);
+        final TreeNode root2 = frontMid2Tree(front, middle);
         System.out.println(Objects.equals(root, root2));
     }
 
