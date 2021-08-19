@@ -6,9 +6,8 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayDeque;
-import java.util.LinkedList;
+import java.util.Deque;
 import java.util.Objects;
-import java.util.Queue;
 
 /**
  * @author zhangyuxiao
@@ -96,7 +95,7 @@ public class TreeNode {
      * @param root 根
      */
     public static void middleTraversalNonRecursive(TreeNode root) {
-        final ArrayDeque<TreeNode> stk = new ArrayDeque<>();
+        final Deque<TreeNode> stk = new ArrayDeque<>();
         TreeNode node = root;
         while (node != null || !stk.isEmpty()) {
             while (node != null) {
@@ -130,31 +129,28 @@ public class TreeNode {
      */
     public static void levelTraversal(TreeNode root) {
         if (root == null) return;
-        final Queue<Pair<TreeNode, Integer>> queue = new LinkedList<>();
-        queue.offer(Pair.of(root, 0));
-        int index = 0;
+        final Deque<Pair<TreeNode, Integer>> queue = new ArrayDeque<>();
+        queue.offerFirst(Pair.of(root, 0));
         while (!queue.isEmpty()) {
-            final Pair<TreeNode, Integer> poll = queue.poll();
+            final Pair<TreeNode, Integer> poll = queue.pollLast();
             final TreeNode node = poll.getLeft();
             final Integer nowIdx = poll.getRight();
-            if (node != null) {
-                index = nowIdx;
-                level[nowIdx] = node.val;
-                queue.offer(Pair.of(node.left, nowIdx * 2 + 1));
-                queue.offer(Pair.of(node.right, nowIdx * 2 + 2));
-            }
+            if (node == null) continue;
+            nowSize = nowIdx;
+            level[nowIdx] = node.val;
+            queue.offerFirst(Pair.of(node.left, nowIdx * 2 + 1));
+            queue.offerFirst(Pair.of(node.right, nowIdx * 2 + 2));
+
         }
-        levelTraversalPrinter(index);
+        levelTraversalPrinter();
     }
 
     /**
      * 根据数组打印层序数组
-     *
-     * @param index 最大且有意义的下标
      */
-    public static void levelTraversalPrinter(int index) {
+    public static void levelTraversalPrinter() {
         System.out.print('[');
-        for (int i = 0; i < MAX_SIZE && i <= index; i++) {
+        for (int i = 0; i < MAX_SIZE && i <= nowSize; i++) {
             if (i > 0) System.out.print(", ");
             System.out.print(level[i]);
         }
