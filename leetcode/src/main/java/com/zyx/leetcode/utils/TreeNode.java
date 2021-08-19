@@ -82,10 +82,7 @@ public class TreeNode {
         if (!idx2Num.containsKey(index) || idx2Num.get(index) == null) {
             return null;
         }
-        final TreeNode node = new TreeNode(idx2Num.get(index));
-        node.left = build(2 * index + 1);
-        node.right = build(2 * index + 2);
-        return node;
+        return new TreeNode(idx2Num.get(index), build(2 * index + 1), build(2 * index + 2));
     }
 
     /**
@@ -106,7 +103,7 @@ public class TreeNode {
      * @param root 根
      */
     public static void frontTraversalNonRecursive(TreeNode root) {
-        final ArrayDeque<TreeNode> stk = new ArrayDeque<>();
+        final Deque<TreeNode> stk = new ArrayDeque<>();
         TreeNode node = root;
         while (node != null || !stk.isEmpty()) {
             while (node != null) {
@@ -174,6 +171,7 @@ public class TreeNode {
     public static void levelTraversal(TreeNode root) {
         if (root == null) return;
         final Queue<TreeNode> queue = new LinkedList<>();
+        levels.clear();
         queue.offer(root);
         while (!queue.isEmpty()) {
             final TreeNode node = queue.poll();
@@ -204,7 +202,7 @@ public class TreeNode {
      * @param root 根
      */
     public static void backTraversalNonRecursive(TreeNode root) {
-        final ArrayDeque<TreeNode> stk = new ArrayDeque<>();
+        final Deque<TreeNode> stk = new ArrayDeque<>();
         TreeNode cur, pre = null;
         stk.addLast(root);
         while (!stk.isEmpty()) {
