@@ -3,11 +3,8 @@ package com.zyx.leetcode.utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author zhangyuxiao
@@ -21,27 +18,74 @@ public class TreeNode {
     public int val;
     public TreeNode left;
     public TreeNode right;
-    private static final int MAX_SIZE = 1024;
     private static int nowSize = 0;
-    private static final Integer[] level = new Integer[MAX_SIZE];
+    private static final List<Integer> levels = new ArrayList<>();
+    private static final Map<Integer, Integer> idx2Num = new HashMap<>();
 
-    TreeNode(int val) {
+    public TreeNode(int val) {
         this.val = val;
     }
 
-    public static TreeNode buildTree(Integer[] arr) {
-        if (arr.length == 0) return null;
-        return build(arr, 0);
+    /**
+     * 第n层第最右边第index（层数从1算起）
+     *
+     * @param depth 层数
+     * @return index
+     */
+    public static int levelRange(int depth) {
+        if (depth == 1) return 0;
+        return (int) Math.pow(2, depth) - 2;
     }
 
-    public static TreeNode build(Integer[] arr, int index) {
-        if (index >= arr.length || arr[index] == null) {
+    /**
+     * 构建完美二叉树的index与arr的关系
+     *
+     * @param arr 入参
+     */
+    public static void buildIdxMap(Integer[] arr) {
+        int depth = 1, theFirstNonNullAbove = 0;
+        for (int i = 0; i < arr.length; ) {
+            int right = levelRange(depth);
+            boolean flag = true;
+            for (int j = theFirstNonNullAbove; j <= right && i < arr.length; j++, i++) {
+                idx2Num.put(j, arr[i]);
+                if (arr[i] != null && flag) {
+                    theFirstNonNullAbove = j;
+                    flag = false;
+                }
+            }
+            theFirstNonNullAbove = theFirstNonNullAbove * 2 + 1;
+            depth++;
+        }
+    }
+
+    /**
+     * 构造🌲
+     *
+     * @param arr 数组
+     * @return 🌲节点
+     */
+    public static TreeNode buildTree(Integer[] arr) {
+        if (arr.length == 0) return null;
+        buildIdxMap(arr);
+        return build(0);
+    }
+
+    /**
+     * 构造🌲的主体
+     * 从map中获取index
+     *
+     * @param index 位置
+     * @return 🌲节点
+     */
+    public static TreeNode build(int index) {
+        if (!idx2Num.containsKey(index) || idx2Num.get(index) == null) {
             return null;
         }
-        TreeNode root = new TreeNode(arr[index]);
-        root.left = build(arr, index * 2 + 1);
-        root.right = build(arr, index * 2 + 2);
-        return root;
+        final TreeNode node = new TreeNode(idx2Num.get(index));
+        node.left = build(2 * index + 1);
+        node.right = build(2 * index + 2);
+        return node;
     }
 
     /**
@@ -129,18 +173,15 @@ public class TreeNode {
      */
     public static void levelTraversal(TreeNode root) {
         if (root == null) return;
-        final Deque<Pair<TreeNode, Integer>> queue = new ArrayDeque<>();
-        queue.offerFirst(Pair.of(root, 0));
+        final Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
         while (!queue.isEmpty()) {
-            final Pair<TreeNode, Integer> poll = queue.pollLast();
-            final TreeNode node = poll.getLeft();
-            final Integer nowIdx = poll.getRight();
+            final TreeNode node = queue.poll();
+            levels.add(node == null ? null : node.val);
             if (node == null) continue;
-            nowSize = nowIdx;
-            level[nowIdx] = node.val;
-            queue.offerFirst(Pair.of(node.left, nowIdx * 2 + 1));
-            queue.offerFirst(Pair.of(node.right, nowIdx * 2 + 2));
-
+            nowSize = levels.size();
+            queue.offer(node.left);
+            queue.offer(node.right);
         }
         levelTraversalPrinter();
     }
@@ -150,9 +191,9 @@ public class TreeNode {
      */
     public static void levelTraversalPrinter() {
         System.out.print('[');
-        for (int i = 0; i < MAX_SIZE && i <= nowSize; i++) {
+        for (int i = 0; i < nowSize && i < levels.size(); i++) {
             if (i > 0) System.out.print(", ");
-            System.out.print(level[i]);
+            System.out.print(levels.get(i));
         }
         System.out.println(']');
     }
@@ -208,13 +249,11 @@ public class TreeNode {
     }
 
     public static void main(String[] args) {
-        Integer[] arr = new Integer[]{1, 2, 3, null, null, 4, 5};
-        final TreeNode root = buildTree(arr);
-        Integer[] front = new Integer[]{1, 2, 4, 5, 3};
-        Integer[] middle = new Integer[]{4, 2, 5, 1, 3};
-        final TreeNode root2 = frontMid2Tree(front, middle);
-        System.out.println(Objects.equals(root, root2));
-        levelTraversal(root);
+        Integer[] arr = new Integer[]{1, null, 2, null, 3};
+        TreeNode treeNode = buildTree(arr);
+        levelTraversal(treeNode);
+        frontTraversal(treeNode);
+        middleTraversal(treeNode);
     }
 
     /**
