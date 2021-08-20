@@ -181,13 +181,13 @@ public class TreeNode {
             queue.offer(node.left);
             queue.offer(node.right);
         }
-        levelTraversalPrinter();
     }
 
     /**
      * 根据数组打印层序数组
      */
-    public static void levelTraversalPrinter() {
+    public static void levelTraversalPrinter(TreeNode root) {
+        levelTraversal(root);
         System.out.print('[');
         for (int i = 0; i < nowSize && i < levels.size(); i++) {
             if (i > 0) System.out.print(", ");
@@ -249,9 +249,10 @@ public class TreeNode {
     public static void main(String[] args) {
         Integer[] arr = new Integer[]{1, null, 2, null, 3};
         TreeNode treeNode = buildTree(arr);
-        levelTraversal(treeNode);
+        levelTraversalPrinter(treeNode);
         frontTraversal(treeNode);
         middleTraversal(treeNode);
+        System.out.println(treeNode);
     }
 
     /**
@@ -267,5 +268,18 @@ public class TreeNode {
             return this.val == root.val && Objects.equals(this.left, root.left) && Objects.equals(this.right, root.right);
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        levelTraversal(this);
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append('[');
+        for (int i = 0; i < nowSize && i < levels.size(); i++) {
+            if (i > 0) buffer.append(", ");
+            buffer.append(levels.get(i));
+        }
+        buffer.append("]\n");
+        return buffer.toString();
     }
 }
